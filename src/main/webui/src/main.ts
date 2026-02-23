@@ -1,4 +1,5 @@
 import '@tabler/icons-webfont/dist/tabler-icons.min.css';
+import 'virtual:uno.css';
 import 'celerix-spectrum/css';
 
 import { createApp } from 'vue'

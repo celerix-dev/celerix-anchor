@@ -3,13 +3,13 @@ import logo from '@/assets/logo.svg'
 </script>
 
 <template>
-    <aside class="surface sidebar stack g-3" style="padding: var(--s-3);">
-        <header class="cluster">
+    <aside class="surface sidebar stack g-3">
+        <header class="cluster g-3">
             <img class="logo" :src="logo" width="48" alt="logo" />
-            <span class="text-bold text-uppercase">Link</span>
+            <span class="text-bold text-uppercase">Anchor</span>
         </header>
 
-        <nav class="stack" style="--gap: var(--s-2);">
+        <nav class="stack g-2">
             <small class="text-muted text-uppercase text-bold">Items</small>
             <RouterLink class="nav-link" to="/">Dashboard</RouterLink>
             <a href="#" class="nav-link">Settings</a>
@@ -22,6 +22,7 @@ import logo from '@/assets/logo.svg'
     height: 100vh;
     position: sticky;
     top: 0;
+    padding: var(--s-3);
     overflow-y: auto;
     overflow-x: hidden;
     border-right: 1px solid var(--separator);

@@ -60,12 +60,12 @@ const updateThemeProperty = (
 </script>
 
 <template>
-    <div class="cluster" style="align-items: stretch;">
+    <div class="cluster g-3 align-stretch-important">
         <div class="card">
 
             <div class="card-body">
 
-                <div class="stack" style="width:350px;">
+                <div class="stack g-3">
 
                     <!--region LCH Title-->
                     <div style="display:flex;justify-content:space-between;padding: 10px 10px 0;">
@@ -214,12 +214,12 @@ const updateThemeProperty = (
 
         </div>
 
-        <div class="stack" style="flex-grow: 1">
+        <!--region Right Column -->
+        <div class="stack g-3" style="flex-grow: 1">
             <div class="card">
                 <div class="card-body">
                     <div class="py-3 px-3">
-                        <div
-                            style="display: flex;align-items: flex-start; justify-content: space-between;">
+                        <div style="display: flex;align-items: flex-start; justify-content: space-between;">
                             <div>
                                 <div style="font-size:2.5rem;font-weight:700">{{
                                         spectrum.wcag.ratio
@@ -245,11 +245,11 @@ const updateThemeProperty = (
 
             <div class="card">
                 <div class="card-body">
-                    <div style="display: flex; flex-direction: column; gap: 5px; align-items: flex-start; padding-bottom: 50px;margin-top:15px">
-                        <div class="text-muted" style="text-align: center;width:100%">Brand 100-900
+                    <div class="d-flex-col g-3 align-start pb-5 mt-3">
+                        <div class="text-muted text-center w-100">Brand 100-900
                             steps with text 'on-brand'
                         </div>
-                        <div style="display: flex;gap:5px; width:100%;justify-content: center">
+                        <div class="d-flex-jc-center g-2 w-100">
                             <div v-for="step in [100, 200, 300, 400, 500, 600, 700, 800, 900]"
                                  :key="step"
                                  :class="`brand-${step}`"
@@ -300,6 +300,7 @@ wcag: {{ spectrum.wcag }}
                 </div>
             </div>
         </div>
+        <!--endregion-->
 
     </div>
 </template>

@@ -4,7 +4,7 @@
 
 <template>
     <h1>Welcome Home</h1>
-    <div class="grid" style="--min: 300px;">
+    <div class="grid g-4" style="--min: 300px;">
         <div class="card">
             <div class="card-body">Card 1</div>
         </div>
