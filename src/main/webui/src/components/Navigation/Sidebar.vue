@@ -4,6 +4,7 @@ import logo from '@/assets/logo.svg'
 
 <template>
     <aside class="surface sidebar stack g-3">
+
         <header class="cluster g-3">
             <img class="logo" :src="logo" width="48" alt="logo" />
             <span class="text-bold text-uppercase">Anchor</span>

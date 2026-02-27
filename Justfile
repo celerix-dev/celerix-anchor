@@ -11,7 +11,7 @@ build:
 
 # start quarkus dev mode
 dev:
-    ./mvnw quarkus:dev
+    mvn quarkus:dev
 
 # build native using container
 build-native:

@@ -3,7 +3,7 @@ import Sidebar from "@/components/Navigation/Sidebar.vue";
 </script>
 
 <template>
-    <div class="dashboard-layout" style="--sidebar-width:350px;">
+    <div class="cx-layout-350-60">
         <aside>
             <Sidebar />
         </aside>

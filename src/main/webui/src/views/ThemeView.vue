@@ -1,44 +1,50 @@
 <script setup lang="ts">
 
 import {useSpectrum} from "celerix-spectrum/vue";
+import {ref, watch} from "vue";
 
 const spectrum = useSpectrum();
 
+const activePresetKey = ref<keyof typeof THEME_PRESETS>('ocean');
+
 const THEME_PRESETS = {
-    ocean: {hue: 210, chroma: 0.14, lightness: 0.52, name: 'Ocean Blue'},
-    slateblue: {hue: 258, chroma: 0.09, lightness: 0.52, name: 'Slateblue'},
-    forest: {hue: 145, chroma: 0.12, lightness: 0.52, name: 'Deep Forest'},
-    sunset: {hue: 25, chroma: 0.18, lightness: 0.52, name: 'Sunset Orange'},
-    cyber: {hue: 310, chroma: 0.25, lightness: 0.52, name: 'Cyber Neon'},
-    slate: {hue: 210, chroma: 0.02, lightness: 0.52, name: 'Professional Slate'}
+    ocean: {hue: 210, chroma: 0.14, lightness: { light: 0.5, dark: 0.3 }, name: 'Ocean Blue'},
+    slateblue: {hue: 258, chroma: 0.09, lightness: { light: 0.5, dark: 0.3 }, name: 'Slateblue'},
+    forest: {hue: 145, chroma: 0.12, lightness: { light: 0.5, dark: 0.3 }, name: 'Deep Forest'},
+    sunset: {hue: 25, chroma: 0.18, lightness: { light: 0.5, dark: 0.3 }, name: 'Sunset Orange'},
+    cyber: {hue: 310, chroma: 0.25, lightness: { light: 0.5, dark: 0.3 }, name: 'Cyber Neon'},
+    slate: {hue: 210, chroma: 0.02, lightness: { light: 0.5, dark: 0.3 }, name: 'Professional Slate'},
 } as const;
 
 const applyPreset = (presetKey: keyof typeof THEME_PRESETS) => {
     const {hue, chroma, lightness} = THEME_PRESETS[presetKey];
-    let ln = Number(lightness);
+    let ln = Number(lightness.light);
     // If linked, this will automatically update both via our existing updateValue logic
-    if (spectrum.mode === 'dark' || (spectrum.mode === 'auto' && getCurrentTheme() === 'dark')) {
-        ln = 0.30
+    if (spectrum.active.mode === 'dark') {
+        ln = Number(lightness.dark);
     }
+
+    activePresetKey.value = presetKey;
 
     spectrum.updateValue({mode: 'light', key: 'hue', value: hue});
     spectrum.updateValue({mode: 'light', key: 'chroma', value: chroma});
     spectrum.updateValue({mode: 'light', key: 'lightness', value: ln});
 }
 
-const getCurrentTheme = (): 'light' | 'dark' => {
-    // 1. Check for manual override first (data-theme="dark")
-    const latchedTheme = document.documentElement.getAttribute('data-theme');
+/* let's make sure the lightness of the theme switches when the theme mode changes */
+watch(
+    () => spectrum.active.mode,
+    (newMode) => {
+        const currentPreset = THEME_PRESETS[activePresetKey.value];
 
-    if (latchedTheme === 'dark' || latchedTheme === 'light') {
-        return latchedTheme;
-    }
-
-    // 2. If no attribute is set, check the System/OS preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    return prefersDark ? 'dark' : 'light';
-}
+        spectrum.updateValue({
+            mode: newMode,
+            key: 'lightness',
+            value: currentPreset.lightness[newMode]
+        });
+    },
+    { flush: 'post' }
+);
 
 /**
  * Universal handler for all theme sliders.
@@ -163,7 +169,7 @@ const updateThemeProperty = (
                                     <input
                                         type="checkbox"
                                         :checked="spectrum.mode === 'auto'"
-                                        @change="spectrum.setThemeMode(($event.target as HTMLInputElement).checked ? 'auto' : getCurrentTheme())"
+                                        @change="spectrum.setThemeMode(($event.target as HTMLInputElement).checked ? 'auto' : spectrum.active.mode)"
                                     >
                                     <span class="toggle-slider"></span>
                                 </label>
@@ -241,15 +247,15 @@ const updateThemeProperty = (
                 </div>
             </div>
 
-            <hr style="margin:0;padding:0"/>
+            <hr style="margin:0;padding:0" />
 
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex-col g-3 align-start pb-5 mt-3">
-                        <div class="text-muted text-center w-100">Brand 100-900
+                        <div class="text-muted text-center cx-w-100">Brand 100-900
                             steps with text 'on-brand'
                         </div>
-                        <div class="d-flex-jc-center g-2 w-100">
+                        <div class="flex-jc-center g-2 cx-w-100">
                             <div v-for="step in [100, 200, 300, 400, 500, 600, 700, 800, 900]"
                                  :key="step"
                                  :class="`brand-${step}`"
