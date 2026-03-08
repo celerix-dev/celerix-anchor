@@ -10,8 +10,13 @@ build:
     ./mvnw -DskipTests clean package
 
 # start quarkus dev mode
+[unix]
 dev:
     mvn quarkus:dev
+
+[windows]
+dev:
+    ./mvnw quarkus:dev
 
 # build native using container
 build-native:
